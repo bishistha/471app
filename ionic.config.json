@@ -1,0 +1,8 @@
+{
+  "name": "mobile-servicing",
+  "app_id": "caf2f1c6",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
