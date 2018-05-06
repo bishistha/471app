@@ -26,15 +26,7 @@ export class HomePage {
     private localNotification: LocalNotifications) {
 
     this.data = this.deviceDataProvider.getData();
-
-    this.platform.ready().then((rdy) => {
-      this.localNotification.on('click').subscribe(
-        this.notify,
-        this.failure
-      );
-    });
-
-
+    
   }
 
   notify(notification) {
@@ -59,6 +51,16 @@ export class HomePage {
       trigger: { at: new Date(new Date().getTime() + 10000) },
       data: { mydata: 'This is a test notification'}
     });
+
+    if(!this.platform.is('cordova')){
+      this.platform.ready().then((rdy) => {
+        this.localNotification.on('click').subscribe(
+          this.notify,
+          this.failure
+        );
+      });
+    }
+
   }
 
   ionViewCanEnter() {
