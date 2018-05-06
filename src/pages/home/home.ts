@@ -5,6 +5,7 @@ import { Common } from '../../providers/common'
 import { PushObject, PushOptions } from '@ionic-native/push';
 import { Platform } from 'ionic-angular';
 import { DeviceDataProvider } from '../../providers/device-data';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 @Component({
   selector: 'page-home',
@@ -13,20 +14,52 @@ import { DeviceDataProvider } from '../../providers/device-data';
 export class HomePage {
 
   rootPage: any = LoginPage;
-  data:string = '';
+  data: string = '';
 
   constructor(private navController: NavController,
     private navParams: NavParams,
     private common: Common,
     public platform: Platform,
     private loadingController: LoadingController,
-    public alertCtrl: AlertController,
-    public deviceDataProvider: DeviceDataProvider) {
-    //console.log(this.navController.id);
+    private alertCtrl: AlertController,
+    public deviceDataProvider: DeviceDataProvider,
+    private localNotification: LocalNotifications) {
 
     this.data = this.deviceDataProvider.getData();
+
+    this.platform.ready().then((rdy) => {
+      this.localNotification.on('click').subscribe(
+        this.notify,
+        this.failure
+      );
+    });
+
+
   }
-  
+
+  notify(notification) {
+    let json = JSON.parse(notification.data);
+    let alert = this.alertCtrl.create({
+      title: notification.title,
+      subTitle: json.mydata
+    });
+    alert.present();
+  }
+
+  failure(err) {
+    console.log("Error while tying to notify: " + err);
+  }
+
+  scheduleNotification() {
+    // events schedule, trigger, click, update, clear, clearall, cancel, cancelall
+    this.localNotification.schedule({
+      id: 1,
+      title: 'Attention',
+      text: 'Delayed ILocalNotification',
+      trigger: { at: new Date(new Date().getTime() + 10000) },
+      data: { mydata: 'This is a test notification'}
+    });
+  }
 
   ionViewCanEnter() {
     //console.log("is logged in", this.borrowerProvider.getIsLogin());

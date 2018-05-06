@@ -29,7 +29,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import { BgTask } from '../providers/bg-task';
-// import { LocalNotifications } from '@ionic-native/local-notifications';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 
 // import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
@@ -87,7 +87,8 @@ import { BgTask } from '../providers/bg-task';
     DeviceDataProvider,
     BackgroundMode,
     BLE,
-    BgTask
+    BgTask,
+    LocalNotifications
   ]
 })
 export class AppModule { }

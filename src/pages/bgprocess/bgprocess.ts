@@ -45,7 +45,7 @@ export class BgprocessPage {
     }
     this.setStatus('Scanning for Bluetooth LE Devices');
     this.devices = [];  // clear list
-    this.ble.scan(["ff51b30e-d7e2-4d93-8842-a7c4a57dfb07"], 5).subscribe(
+    this.ble.scan([], 3).subscribe(
       device => this.onDeviceDiscovered(device),
       error => this.scanError(error)
     );
